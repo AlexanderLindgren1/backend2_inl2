@@ -43,7 +43,7 @@ export async function middleware(req:NextRequest){
 export const config = {
     matcher:[
         "/api/booking",
-        "/api/property"
+        // "/api/property"
 ]
     
 }
