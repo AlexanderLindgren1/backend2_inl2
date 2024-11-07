@@ -7,16 +7,17 @@ const PropertyList = () => {
     console.log("in PropertyList");
     
   return (
-    <div className="property-list">
-      {properties.map((property) => (
-        <Property
-          key={property.id}
-          property={property}
-          deleteProperty={()=> deleteProperty(property.id)}
-          setSelectedProperty={setSelectedProperty}
-        />
-      ))}
-    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {properties.map((property) => (
+      <Property
+        key={property.id}
+        property={property}
+        deleteProperty={() => deleteProperty(property.id)}
+        setSelectedProperty={setSelectedProperty}
+      />
+    ))}
+  </div>
+  
   );
 };
 export default PropertyList

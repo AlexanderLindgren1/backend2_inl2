@@ -14,7 +14,7 @@ type PropertyRecord = {
   place: string;
   pricePerNight: number;
   availableFrom: boolean;
-  bookings?: Booking[];
+  bookings?: Booking[] |  null;
 };
 
 
@@ -36,8 +36,17 @@ type PropertyInput = {
   place: string;
   description: string;
   availableFrom: boolean;
-  bookings: Booking;
+
 }
 type PropertyFormProps = {
   selectedProperty?: PropertyRecord | null; // Allow null
 }
+interface PropertyData {
+  id: string; // Changed from number to string
+  name: string;
+  pricePerNight: number;
+  place: string;
+  description: string;
+  availableFrom: boolean;
+}
+

@@ -28,8 +28,12 @@ export const PropertyProvider = ({children}: {children: ReactNode})=> {
         }
     }
     const createProperty = async (data: PropertyInput) => {
+        console.log("the data is", data);
+        
         try {
             const newProperty = await propertyApi.createProperty(data);
+            console.log("new property", newProperty);
+            
             setProperties((prevProperties)=> [...prevProperties, newProperty]);
         } catch (error) {
             console.log(error);

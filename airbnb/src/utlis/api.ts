@@ -7,7 +7,7 @@ export const getProperties = async () => {
     return response.data
 }
 export const getProperty = async (id: string) => {
-    const response = await axios.get(`${backendUrl}/api/properties/${id}`)
+    const response = await axios.get(`${backendUrl}/api/Property/${id}`)
     return response.data
 }
 
