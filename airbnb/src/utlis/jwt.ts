@@ -1,13 +1,13 @@
 import * as Jose from "jose";
 
-type JWTPayload  = {
+type JWTPayload = {
   [key: string]: any;
 };
 
 const secret = process.env.JWT_SECRET;
 
 if (!secret) {
-  throw new Error("JWT_Secret environment varibale is not set");
+  throw new Error("JWT_Secret environment variable is not set");
 }
 
 const encodedSecret = new TextEncoder().encode(secret);
@@ -21,13 +21,11 @@ export async function signJWT(payload: JWTPayload): Promise<string> {
   return response;
 }
 
-export async function verifyJWT(token:string): Promise<JWTPayload | null>{
-    try{
-        const {payload} = await Jose.jwtVerify(token, encodedSecret)
-        return payload as JWTPayload
-    }catch(e){
-        return null
-    }
+export async function verifyJWT(token: string): Promise<JWTPayload | null> {
+  try {
+    const { payload } = await Jose.jwtVerify(token, encodedSecret);
+    return payload as JWTPayload;
+  } catch (e) {
+    return null;
+  }
 }
-
-"@/utlis/jwt"

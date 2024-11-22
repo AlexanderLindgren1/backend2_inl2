@@ -1,8 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -21,6 +17,7 @@ model User {
   isAdmin   Boolean   @default(false)
   createdAt DateTime  @default(now())
   bookings  Booking[]
+  properties Property[]  
 }
 
 model Property {
@@ -29,8 +26,11 @@ model Property {
   description   String
   place         String
   pricePerNight Int
-  availableFrom Boolean
-  bookings      Booking[] // One-to-many relationship: A property can have multiple bookings
+  available     DateTime[]
+  bookings      Booking[]
+  owner         User    @relation(fields: [ownerId], references: [id])  // Relation till User
+  ownerId       String  @db.ObjectId
+
 }
 
 model Booking {
@@ -40,10 +40,10 @@ model Booking {
   checkingOut DateTime
   totalPrice  Int
   
-  // Relations
+
   user        User     @relation(fields: [userId], references: [id])
   userId      String   @db.ObjectId
 
-  property    Property @relation(fields: [propertyId], references: [id]) // Optional: Booking related to a Property
+  property    Property @relation(fields: [propertyId], references: [id])
   propertyId  String   @db.ObjectId
 }

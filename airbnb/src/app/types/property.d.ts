@@ -1,10 +1,12 @@
 type Property = {
+  id: string;
   name: string;
   description: string;
   place: string;
   pricePerNight: number;
-  availableFrom: boolean;
+  available: date[];
   bookings?: Booking[];
+  ownerId: string;
 };
 
 type PropertyRecord = {
@@ -13,40 +15,40 @@ type PropertyRecord = {
   description: string;
   place: string;
   pricePerNight: number;
-  availableFrom: boolean;
-  bookings?: Booking[] |  null;
+  available: date[];
+  bookings?: Booking[] | null;
+  ownerId: string;
 };
-
-
-
-type PropertyContextState = {
-  properties: PropertyRecord[];
-  selectedProperty: PropertyRecord | null;
-  setSelectedProperty: (property: PropertyRecord | null) => void;
-  createProperty: (data: PropertyInput) => Promise<void>;
-  updateProperty: (id: string, data: PropertyData) => Promise<void>; // Accepts PropertyData
-  deleteProperty: (id: string) => Promise<void>;
-  getProperties: () => Promise<void>;
-};
-
 
 type PropertyInput = {
   name: string;
   pricePerNight: number;
   place: string;
   description: string;
-  availableFrom: boolean;
+  available: date[];
+  bookings?: Booking[] | null;
+};
 
-}
-type PropertyFormProps = {
-  selectedProperty?: PropertyRecord | null; // Allow null
-}
-interface PropertyData {
-  id: string; // Changed from number to string
+type PropertyData = {
+  id: string;
   name: string;
   pricePerNight: number;
   place: string;
   description: string;
-  availableFrom: boolean;
-}
+  bookings?: Booking[] | null;
+  ownerId: string;
+};
+
+type PropertyContextState = {
+  userProperties: PropertyRecord[];
+  properties: PropertyRecord[];
+  selectedProperty: PropertyRecord | null;
+  setSelectedProperty: (property: PropertyRecord | null) => void;
+  createProperty: (data: PropertyInput) => Promise<void>;
+  updateProperty: (id: string, data: PropertyData) => Promise<void>;
+  deleteProperty: (id: string) => Promise<void>;
+  getPropertyById: (id: string) => Promise<PropertyRecord>;
+  getProperties: () => Promise<void>;
+  getAllPropertyByUser: () => Promise<void>;
+};
 

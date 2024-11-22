@@ -1,41 +1,46 @@
 import prisma from "@/app/lib/prisma";
 import { NextResponse, NextRequest } from "next/server";
+import { generateAvailabilityDates } from "@/utlis/availability";
+
 export async function GET(req: NextRequest) {
   try {
-    const allProperty = await prisma.property.findMany();
-    if (!allProperty) {
-      return NextResponse.json({ message: "There are none users" });
-    }
-
-    return NextResponse.json(allProperty);
-  } catch (err) {
-    return NextResponse.json(
-      { message: `there are an error here: \n ${err}` },
-      { status: 500 }
-    );
+    const properties = await prisma.property.findMany();
+    return NextResponse.json(properties);
+  } catch (error) {
+    return NextResponse.json({ message: "Error fetching properties" }, { status: 500 });
   }
 }
 
 export async function POST(req: NextRequest) {
-  const newProperty = await req.json();
-if(!newProperty){
- 
-  return NextResponse.json({message: "error accrued"}, {status: 500})
-
-}
-const createProperty = await prisma.property.create({
-  data:{
-name: newProperty.name,
-description:newProperty.description,
-place:newProperty.place,
-pricePerNight:newProperty.pricePerNight,
-availableFrom:newProperty.availableFrom || false,
-
+  const userId = req.headers.get('userid');
+  if (!userId) {
+    return NextResponse.json({ message: 'User not authenticated' }, { status: 401 });
   }
-})
-if(!createProperty){
-  return NextResponse.json({message: "User could not be created"},{status: 400})
-}
-return NextResponse.json(createProperty, {status: 201})
 
+  const newProperty:Property = await req.json();
+  if (!newProperty) {
+    return NextResponse.json({ message: 'Invalid property data' }, { status: 400 });
+  }
+
+  try {
+    const createProperty = await prisma.property.create({
+      data: {
+        name: newProperty.name,
+        description: newProperty.description,
+        place: newProperty.place,
+        pricePerNight: Number(newProperty.pricePerNight),
+        available: generateAvailabilityDates(newProperty.available),
+        owner: {
+          connect: { id: userId },
+        },
+      },
+    });
+
+    return NextResponse.json(createProperty, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { message: `An error occurred while creating the property: ${error}` },
+      { status: 500 }
+    );
+  }
 }

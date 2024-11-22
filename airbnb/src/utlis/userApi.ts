@@ -1,5 +1,4 @@
 import { axiosInstance } from "./axiosInstance";
-
 import handleAxiosError from "./axiosErrorHandler";
 
 interface AuthResponse {
@@ -7,13 +6,12 @@ interface AuthResponse {
   status?: number;
 }
 
-const registerUser = async (user: UserRegister): Promise<AuthResponse > => {
+const registerUser = async (user: UserRegister): Promise<AuthResponse> => {
   const response = await axiosInstance.post("/api/user/register", user);
-  console.log("response from backend ", response.data);
   return response.data;
 };
 
-export const loginUser = async (user: UserLogin): Promise<AuthResponse > => {
+const loginUser = async (user: UserLogin): Promise<AuthResponse> => {
   try {
     const response = await axiosInstance.post("/api/user/login", user);
 
@@ -28,7 +26,18 @@ export const loginUser = async (user: UserLogin): Promise<AuthResponse > => {
   }
 };
 
+const getUserProperties = async (userId: string): Promise<PropertyRecord[]> => {
+  try {
+    const response = await axiosInstance.get(`/api/user/${userId}/properties`);
+    return response.data;
+  } catch (error: any) {
+    const errorMessage = handleAxiosError(error);
+    throw new Error(errorMessage);
+  }
+};
+
 export const userApi = {
   registerUser,
   loginUser,
+  getUserProperties,
 };

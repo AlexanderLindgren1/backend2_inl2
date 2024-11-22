@@ -20,20 +20,20 @@ export async function GET(req: Request) {
       );
     }
 
-    const userId: string = decoded.id;
+    const userId = decoded.id;
 
-    const getUser = await prisma.user.findUnique({
-      where: { id: userId },
+    const getPropertys = await prisma.property.findMany({
+      where: { ownerId: userId },
     });
 
-    if (!getUser) {
+    if (!getPropertys) {
       return NextResponse.json(
         { message: "User could not be found" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(getUser);
+    return NextResponse.json(getPropertys);
   } catch (error) {
     return NextResponse.json(
       { message: "An error occurred while fetching the user" },

@@ -6,9 +6,16 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const bookingId = params.id;
-  console.log(bookingId);
 
-  const booking = await prisma.booking.findUnique({
+   const booking: {
+    id: string;
+    createdAt: Date;
+    checkingIn: Date;
+    checkingOut: Date;
+    totalPrice: number;
+    userId: string;
+    propertyId: string;
+} | null = await prisma.booking.findUnique({
     where: {
       id: bookingId,
     },
@@ -18,17 +25,15 @@ export async function GET(
   }
   return NextResponse.json(booking);
 }
-
 export async function PUT(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
     try{
         const bookingId = params.id;
-        const bookingData = await req.json();
-      console.log(1);
+        const bookingData:BookingInput = await req.json();
       
-        const booking = await prisma.booking.update({
+        const booking:PrismaBooking = await prisma.booking.update({
           where: {
             id: bookingId,
           },
@@ -36,16 +41,13 @@ export async function PUT(
         });
       
         if (!booking) {
-          return NextResponse.json({ message: "booking not found" }, { status: 404 });
+          return NextResponse.json({ message: "Booking not found" }, { status: 404 });
         }
         return NextResponse.json(booking);
     }
     catch(err){
-        return NextResponse.json({message:`the error are from update are: ${err}`},{status:500
-
-        })
+        return NextResponse.json({message:`The error from update are: ${err}`},{status:500})
     }
-
 }
 
 export async function DELETE(
@@ -55,20 +57,20 @@ export async function DELETE(
   const bookingId = params.id;
   if (!bookingId) {
     return NextResponse.json(
-      { message: "there are none to delete by this id" },
+      { message: "There are none to delete by this id" },
       { status: 404 }
     );
   }
-  const deletedBooking = await prisma.booking.delete({
+  const deletedBooking:PrismaBooking = await prisma.booking.delete({
     where: {
       id: bookingId,
     },
   });
   if (!deletedBooking) {
     return NextResponse.json(
-      { message: "There are none users by the id" },
+      { message: "There are no users by this id" },
       { status: 404 }
     );
   }
-  return NextResponse.json(`Sussesfully deleted booking ${deletedBooking}`, { status: 201 });
+  return NextResponse.json(`Successfully deleted booking ${deletedBooking}`, { status: 201 });
 }

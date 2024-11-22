@@ -11,7 +11,7 @@ export async function GET(req: Request) {
         { status: 401 }
       );
     }
-
+    
     const decoded = await verifyJWT(token);
     if (!decoded) {
       return NextResponse.json(
@@ -20,23 +20,12 @@ export async function GET(req: Request) {
       );
     }
 
-    const userId: string = decoded.id;
+    const users = await prisma.user.findMany();
+    return NextResponse.json(users);
 
-    const getUser = await prisma.user.findUnique({
-      where: { id: userId },
-    });
-
-    if (!getUser) {
-      return NextResponse.json(
-        { message: "User could not be found" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json(getUser);
   } catch (error) {
     return NextResponse.json(
-      { message: "An error occurred while fetching the user" },
+      { message: "An error occurred while fetching users" },
       { status: 500 }
     );
   }

@@ -4,7 +4,7 @@ import { verifyJWT } from "@/utlis/jwt";
 
 export async function GET(req: Request) {
   try {
-    const token = req.headers.get("Authorization")?.split(" ")[1];
+    const token  = req.headers.get("Authorization")?.split(" ")[1];
     if (!token) {
       return NextResponse.json(
         { message: "Authentication token is missing" },
@@ -22,21 +22,24 @@ export async function GET(req: Request) {
 
     const userId: string = decoded.id;
 
-    const getUser = await prisma.user.findUnique({
-      where: { id: userId },
+    const getBookings = await prisma.booking.findMany({
+      where: { userId: userId },
+      include: {
+        property: true
+      }
     });
 
-    if (!getUser) {
+    if (!getBookings) {
       return NextResponse.json(
-        { message: "User could not be found" },
+        { message: "No bookings found for this user" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(getUser);
+    return NextResponse.json(getBookings);
   } catch (error) {
     return NextResponse.json(
-      { message: "An error occurred while fetching the user" },
+      { message: "An error occurred while fetching the bookings" },
       { status: 500 }
     );
   }

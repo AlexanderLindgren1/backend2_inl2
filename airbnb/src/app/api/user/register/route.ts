@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { hashPassword } from "@/utlis/bcrypt";
 import { signJWT } from "@/utlis/jwt";
-
 import prisma from "@/app/lib/prisma";
-//move thistype to other file for exempel types.d.user
+
 type UserRegistrationData = {
   name: string;
   email: string;
@@ -15,12 +13,6 @@ type UserRegistrationData = {
 };
 
 export async function POST(req: NextRequest) {
-  console.log("inUserRegistrationData");
-
-  //ändra newuser till body
-  //kolla om man behöver register map för detta eller fungerar det ha detsamma
-  //samma sak med login
-  // lägg till en haserror och error för att hantera body:n senare
   try {
     const newUser: User = await req.json();
     if (!newUser) {
@@ -28,7 +20,6 @@ export async function POST(req: NextRequest) {
     }
 
     const hashedPassword = await hashPassword(newUser.password);
-
     const createUser = await prisma.user.create({
       data: {
         name: newUser.name,
@@ -38,12 +29,14 @@ export async function POST(req: NextRequest) {
         createdAt: new Date(),
       },
     });
+
     if (!createUser) {
       return NextResponse.json(
         { message: "User could not be created" },
         { status: 400 }
       );
     }
+
     const token = await signJWT({ id: createUser.id });
 
     if (!token) {
@@ -55,9 +48,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.log("token", token); // Debugga JWT token
-
-    return NextResponse.json({ token }, { status: 201 }); // Sätt token i svaret
+    return NextResponse.json({ token }, { status: 201 });
   } catch (err) {
     return NextResponse.json(
       { message: `there are an error here: \n ${err}` },

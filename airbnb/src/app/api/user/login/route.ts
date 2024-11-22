@@ -5,9 +5,8 @@ import { signJWT } from "@/utlis/jwt";
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const body:User = await req.json();
     
-    // Check if email and password are provided
     if (!body.email || !body.password) {
       return NextResponse.json(
         { message: "You need to add both email and password" },
@@ -15,7 +14,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Retrieve user by email
     const user = await prisma.user.findUnique({
       where: { email: body.email },
     });
@@ -27,7 +25,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Compare passwords
     const isPasswordValid = await comparePasswords(body.password, user.password);
     if (!isPasswordValid) {
       return NextResponse.json(
@@ -36,10 +33,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Sign JWT if login is successful
     const token = await signJWT({ id: user.id });
 
-    // Return the token to the client
     return NextResponse.json({ token }, { status: 201 });
   } catch (error) {
     return NextResponse.json(

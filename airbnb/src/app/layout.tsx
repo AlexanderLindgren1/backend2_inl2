@@ -3,6 +3,8 @@ import React from "react";
 import "./globals.css";
 import { PropertyProvider } from "./context/PropertyContext";
 import { UserProvider } from "./context/UserContext";
+import { BookingProvider } from "./context/BookingContext";
+import Header from "./component/Header";
 export default function RootLayout({
   children,
 }: {
@@ -12,7 +14,12 @@ export default function RootLayout({
     <html>
       <body>
         <UserProvider>
-          <PropertyProvider>{children}</PropertyProvider>
+          <PropertyProvider>
+            <BookingProvider>
+              <Header/>
+              {children}
+              </BookingProvider>
+          </PropertyProvider>
         </UserProvider>
       </body>
     </html>
