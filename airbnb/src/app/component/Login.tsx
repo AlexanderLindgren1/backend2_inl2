@@ -32,6 +32,7 @@ export default function Login() {
             value={email}
             className="w-full p-2 border border-gray-300 rounded-md"
             required
+            minLength={10}
           />
         </div>
         <div>
@@ -43,6 +44,7 @@ export default function Login() {
             value={password}
             className="w-full p-2 border border-gray-300 rounded-md"
             required
+            minLength={4}
           />
         </div>
         <button

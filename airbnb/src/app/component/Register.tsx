@@ -24,6 +24,8 @@ export default function Register() {
             id="name"
             onChange={(e) => setName(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md"
+            required
+            minLength={5}
           />
         </div>
         <div>
@@ -33,6 +35,8 @@ export default function Register() {
             onChange={(e) => setEmail(e.target.value)}
             id="email"
             className="w-full p-2 border border-gray-300 rounded-md"
+            required
+            minLength={10}
           />
         </div>
         <div>
@@ -42,6 +46,8 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
             id="password"
             className="w-full p-2 border border-gray-300 rounded-md"
+            required
+            minLength={4}
           />
         </div>
         <div>
