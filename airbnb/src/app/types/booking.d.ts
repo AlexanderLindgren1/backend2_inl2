@@ -34,7 +34,7 @@ type BookingContextState = {
 };
 
 
-//coming form prisma
+
 
 type PrismaBooking = {
   id: string;

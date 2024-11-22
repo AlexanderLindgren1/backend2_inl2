@@ -38,7 +38,7 @@ function UserPage() {
     try {
       await deleteBooking(id);
       if (user) {
-        getBooksByUser(); // Re-fetch bookings after deletion
+        getBooksByUser(); 
       }
     } catch (error) {
       console.error("Error deleting booking:", error);

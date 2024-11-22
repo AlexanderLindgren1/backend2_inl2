@@ -20,7 +20,7 @@ export default function BookingForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Check if the current user is the owner of the property
+
   const isOwner = user?.id === property.ownerId;
 
   const calculateTotalPrice = (startDate: string, endDate: string): number => {

@@ -3,14 +3,7 @@ import { hashPassword } from "@/utlis/bcrypt";
 import { signJWT } from "@/utlis/jwt";
 import prisma from "@/app/lib/prisma";
 
-type UserRegistrationData = {
-  name: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-  createdAt: Date;
-  bookings?: Booking[];
-};
+
 
 export async function POST(req: NextRequest) {
   try {
