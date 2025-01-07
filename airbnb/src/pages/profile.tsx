@@ -1,9 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useUserContext } from "../context/UserContext";
-import { usePropertyContext } from "../context/PropertyContext";
-import PropertyForm from "../component/PropertyForm";
-import { useBookingContext } from "../context/BookingContext";
+import { useUserContext } from "../app/context/UserContext";
+import { usePropertyContext } from "../app/context/PropertyContext";
+import PropertyForm from "../app/component/PropertyForm";
+import { useBookingContext } from "../app/context/BookingContext";
 import Link from "next/link";
 
 function UserPage() {

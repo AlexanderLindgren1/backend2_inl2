@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from 'react';
 
-import Login from '../component/Login';
-import Register from '../component/Register';
+import Login from '../app/component/Login';
+import Register from '../app/component/Register';
 const LoginRegister = () => {
     const [isLogin, setIsLogin] = useState(true);
 

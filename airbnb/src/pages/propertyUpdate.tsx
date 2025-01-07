@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { usePropertyContext } from "../context/PropertyContext";
-import { useUserContext } from "../context/UserContext";
+import { usePropertyContext } from "../app/context/PropertyContext";
+import { useUserContext } from "../app/context/UserContext";
 
 type FormState = {
   name: string;
@@ -27,7 +27,7 @@ const PropertyUpdatePage = () => {
   const [loading, setLoading] = useState(false);
 
   const searchParams = useSearchParams();
-  const id = searchParams.get("id");
+  const id =  searchParams.get("id") ? null
 
 
   // Fetch property data when the ID changes

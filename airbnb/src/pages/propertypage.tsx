@@ -3,9 +3,9 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-import BookingForm from '../component/BookingForm';
-import { useUserContext } from "../context/UserContext";
-import { usePropertyContext } from '../context/PropertyContext';
+import BookingForm from '../app/component/BookingForm';
+import { useUserContext } from "../app/context/UserContext";
+import { usePropertyContext } from '../app/context/PropertyContext';
 
 export default function PropertyPage() {
   const { getPropertyById } = usePropertyContext();
